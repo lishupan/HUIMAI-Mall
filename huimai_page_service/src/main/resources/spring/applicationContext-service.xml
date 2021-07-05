@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder ignore-unresolvable="true" location="classpath*:properties/page.properties"/>
+   <!-- <dubbo:application name="pageService"/>
+    &lt;!&ndash;指定dubbo暴露的调用端口&ndash;&gt;
+    <dubbo:protocol name="dubbo" port="20884"/>
+    <dubbo:registry address="zookeeper://192.168.188.137:2181"/>
+    <dubbo:annotation package="com.offcn.page.service.impl"/>-->
+
+    <!--配置Freemarker-->
+    <bean id="freeMarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <!--指定模板所在目录-->
+        <property name="templateLoaderPath" value="/WEB-INF/ftl/"/>
+        <!--设置模板的编码-->
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+</beans>

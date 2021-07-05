@@ -1,0 +1,22 @@
+# Project exclude paths
+/huimai_cart_service/target/
+/huimai_cart_web/target/
+/huimai_common/target/
+/huimai_content_service/target/
+/huimai_dao/target/
+/huimai_manager_web/target/
+/huimai_order_service/target/
+/huimai_page_service/target/
+/huimai_page_web/target/
+/huimai_pay_service/target/
+/huimai_pojo/target/
+/huimai_portal_web/target/
+/huimai_search_service/target/
+/huimai_search_web/target/
+/huimai_sellergoods_interface/target/
+/huimai_sellergoods_service/target/
+/huimai_shop_web/target/
+/huimai_sms_service/target/
+/huimai_solr_util/target/
+/huimai_user_service/target/
+/huimai_user_web/target/

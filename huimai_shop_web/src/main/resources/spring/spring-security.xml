@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!--配置静态资源不拦截-->
+    <http pattern="/css/**" security="none"/>
+    <http pattern="/img/**" security="none"/>
+    <http pattern="/js/**" security="none"/>
+    <http pattern="/plugins/**" security="none"/>
+    <!--配置收藏夹图标不拦截-->
+    <http pattern="/favicon.ico" security="none"/>
+    <!--注册页面不拦截-->
+    <http pattern="/register.html" security="none"/>
+    <!--保存商家后台接口调用地址不拦截-->
+    <http pattern="/seller/add.do" security="none"/>
+    <!--登录页面不拦截-->
+    <http pattern="/shoplogin.html" security="none"/>
+
+    <!--临时放行上传接口-->
+    <http pattern="/upload.do" security="none"/>
+    <!--配置拦截规则-->
+    <http use-expressions="false">
+        <intercept-url pattern="/**" access="ROLE_SELLER"/>
+        <form-login login-page="/shoplogin.html" default-target-url="/admin/index.html" always-use-default-target="true"/>
+      <logout/>
+        <csrf disabled="true"/>
+        <headers>
+            <frame-options policy="SAMEORIGIN"></frame-options>
+        </headers>
+    </http>
+
+    <dubbo:application name="shopWeb"/>
+    <dubbo:registry address="zookeeper://192.168.188.129:2181"/>
+
+    <!--使用配置的方式来引用商家服务-->
+    <dubbo:reference id="sellerService" interface="com.huimai.sellergoods.service.SellerService"/>
+    <!--声明自定义认证类-->
+    <beans:bean id="userLogin" class="com.huimai.shop.user.UserLoginImpl">
+        <!--注入商家服务-->
+        <beans:property name="sellerService" ref="sellerService"/>
+    </beans:bean>
+    <!--配置认证管理器-->
+    <authentication-manager>
+        <authentication-provider user-service-ref="userLogin">
+            <!--注入密码加密器-->
+            <password-encoder ref="bCryptPasswordEncoder"/>
+           <!-- <user-service>
+                <user name="test1" password="123" authorities="ROLE_SELLER"/>
+            </user-service>-->
+        </authentication-provider>
+    </authentication-manager>
+
+    <!--声明密码加密器-->
+    <beans:bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+</beans:beans>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <dubbo:application name="orderService"/>
+    <!--指定dubbo暴露的调用端口-->
+    <dubbo:protocol name="dubbo" port="20888"/>
+    <dubbo:registry address="zookeeper://192.168.188.129:2181"/>
+    <dubbo:annotation package="com.huimai.order.service.impl"/>
+
+    <!--配置idWorker订单编号生成器-->
+    <bean id="idWorker" class="com.huimai.utils.IdWorker">
+        <!--参数1：机房编号-->
+        <constructor-arg index="0" value="1"/>
+        <!--参数2：服务器id-->
+        <constructor-arg index="1" value="1"/>
+    </bean>
+</beans>

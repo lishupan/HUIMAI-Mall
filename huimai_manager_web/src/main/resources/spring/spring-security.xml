@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <!--设置静态资源不拦截-->
+ <http pattern="/css/**" security="none"/>
+ <http pattern="/img/**" security="none"/>
+ <http pattern="/js/**" security="none"/>
+ <http pattern="/plugins/**" security="none"/>
+ <http pattern="/login.html" security="none"/>
+    <!--配置收藏夹图标不拦截-->
+    <http pattern="/favicon.ico" security="none"/>
+    <!--配置拦截规则-->
+    <!--use-expressions="true"如果开启，默认就是开启的 设置角色需要access="hasRole(ROLE_ADMIN)"-->
+    <http use-expressions="true">
+        <intercept-url pattern="/**" access="hasRole('ROLE_ADMIN')"/>
+        <form-login login-page="/login.html" default-target-url="/admin/index.html" always-use-default-target="true"/>
+        <csrf disabled="true"/>
+        <!--设置框架的安全规则-->
+        <headers>
+            <frame-options policy="SAMEORIGIN"></frame-options>
+        </headers>
+        <logout/>
+    </http>
+
+    <authentication-manager>
+        <authentication-provider>
+            <user-service>
+                <user name="admin" password="123" authorities="ROLE_ADMIN"/>
+                <user name="test" password="123" authorities="ROLE_ADMIN"/>
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+
+
+</beans:beans>
